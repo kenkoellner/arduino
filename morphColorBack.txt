@@ -1,0 +1,63 @@
+  //colorOff();
+  morphColorAll(randomColor(), 10); 
+  return;
+
+// morph all to a new color.  
+void morphColorAll(uint32_t newC,  uint8_t wait) {
+  
+  boolean flag = true;
+  while (flag) {
+    flag = false;
+    for (uint16_t i=0; i<strip.numPixels(); i++) {
+        uint32_t oldC = strip.getPixelColor(i);
+        if (oldC == newC) { 
+          continue;
+        }
+  Serial.print(i);
+
+        flag = true;
+        uint8_t  oldR = (uint8_t)(oldC >> 16);
+        uint8_t  oldG = (uint8_t)(oldC >>  8);
+        uint8_t  oldB = (uint8_t)oldC;
+        uint8_t  newR = (uint8_t)(newC >> 16);
+        uint8_t  newG = (uint8_t)(newC >>  8);
+        uint8_t  newB = (uint8_t)newC;
+        uint8_t  diffR = (oldR > newR) ? oldR - newR : newR - oldR;
+        uint8_t  diffG = (oldG > newG) ? oldG - newG : newG - oldG;
+        uint8_t  diffB = (oldB > newB) ? oldB - newB : newB - oldB;
+/*  Serial.print("   ");
+         Serial.print(oldR);
+  Serial.print(" ");
+  Serial.print(oldG);
+  Serial.print(" ");
+  Serial.print(oldB);
+  Serial.print(" "); */
+        if (diffR >= diffG && diffR >= diffB) {
+          if (newR > oldR) { oldR++; } else { oldR--; } 
+        } else if (diffG >= diffB && diffG >= diffB) {
+          if (newG > oldG) { oldG++; } else { oldG--; } 
+        } else {
+          if (newB > oldB) { oldB++; } else { oldB--; } 
+        } 
+        strip.setPixelColor(i, strip.Color(  oldR, oldG, oldB));
+/*  Serial.print("   ");
+         Serial.print(oldR);
+  Serial.print(" ");
+  Serial.print(oldG);
+  Serial.print(" ");
+  Serial.print(oldB);
+  Serial.print("   ");
+
+         Serial.print(newR);
+  Serial.print(" ");
+  Serial.print(newG);
+  Serial.print(" ");
+  Serial.print(newB);
+  Serial.print("\n"); */
+    }
+    Serial.print("show \n");
+    strip.show();
+    delay(wait);
+  }
+  
+} // end of morphColorAll()

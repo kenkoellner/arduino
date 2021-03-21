@@ -1,0 +1,7 @@
+Ard	Echo	AdaServo
+5V	Vcc	Vcc (and power +)
+GND	GND	GND (and power Ground)
+12	Trig
+11	Echo
+A4		SCA
+A5		SCL
